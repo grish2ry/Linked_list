@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 
 namespace Program
 {
@@ -36,7 +37,22 @@ namespace Program
         /// </summary>
         public void Add(T item)
         {
-            throw new NotImplementedException("implement me");
+            if (head != null)
+            {
+                Node node = head;
+                while (node.Next != null)
+                {
+                    node = node.Next;
+                }
+                node.Next = new Node(item);
+            }
+            else
+            {
+                head = new Node(item);
+                return;
+            }
+            
+            
         }
 
         /// <summary>
@@ -46,7 +62,25 @@ namespace Program
         /// </summary>
         public bool Remove(T item)
         {
-            throw new NotImplementedException("implement me");
+            if (head == null)
+                return false;
+
+            Node? node = head;
+            if(Equals(node.Value, item))
+            {
+                head = node.Next;
+                return true;
+            }
+            while (node.Next != null)
+            {
+                if (Equals(node.Next.Value, item))
+                {
+                    node.Next = node.Next.Next;
+                    return true;
+                }
+            }
+            return false;
+
         }
 
         /// <summary>
@@ -56,7 +90,21 @@ namespace Program
         /// </summary>
         public T Get(int index)
         {
-            throw new NotImplementedException("implement me");
+            if (head == null || index < 0)
+            {
+                throw new ArgumentOutOfRangeException("Index out of range");
+            }
+            Node node = head;
+            for (int i = 0; i < index; i++)
+            {
+                if (node.Next == null && i < index)
+                    throw new ArgumentOutOfRangeException("Index out of range");
+
+                else if (node.Next != null)
+                    node = node.Next;
+            }
+            return node.Value;
+            
         }
 
         /// <summary>
@@ -66,7 +114,16 @@ namespace Program
         /// </summary>
         public int Count()
         {
-            throw new NotImplementedException("implement me");
+            if(head == null)
+                return 0;
+            int count = 1;
+            Node? node = head;
+            while(node.Next != null)
+            {
+                count++;
+                node = node.Next;
+            }
+            return count;
         }
 
         /// <summary>
@@ -75,7 +132,7 @@ namespace Program
         /// </summary>
         public void Clear()
         {
-            throw new NotImplementedException("implement me");
+            head = null;
         }
     }
 }
